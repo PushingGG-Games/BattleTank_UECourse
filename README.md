@@ -8,7 +8,7 @@ I want to be able to make a game independently without help and make a name for 
 ## Why use GitHub
 I am using GitHub for this project to both backup my project and to create an online resume for myself.
 
-## Resdistribution
+## Redistribution
 Go ahead and use my code for whatever you please, if you pull from it, I wouldn't mind a simple mention on a readme or credits :) but it isn't needed. 
 
 # Thanks!
