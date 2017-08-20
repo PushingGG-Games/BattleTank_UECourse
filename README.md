@@ -11,13 +11,13 @@ I am using GitHub for this project to both backup my project and to create an on
 ## Redistribution
 Go ahead and use my code for whatever you please, if you pull from it, I wouldn't mind a simple mention on a readme or credits :) but it isn't needed. 
 
-## Game Design Document (GDD)
+# Game Design Document (GDD)
 
-# Concept
+## Concept
 core concept is a head to head tank fighting game where you have to destroy a tank before it destroys you!
 Start in a tank and aim at other tanks while using cover, moving away, or straight up dominating the other tank.
 
-# Rules
+## Rules
 * infinite ammo
 * Lose condition - HP drops to Zero and tank explodes
 * Mountains surround map as boundaries
@@ -25,7 +25,7 @@ Start in a tank and aim at other tanks while using cover, moving away, or straig
 * Must fire and hit tank to deal damage
 * Win Condition - Enemy Tank HP reaches zero and explodes
 
-# Requirements
+## Requirements
 * Tank Assets need to be built with shapes or other means Ben Tristem provides.
 * C++ and Blueprint to encode behavior of Tank and controls
 * Sound Effects - Tank Engine, Explosions, Hit marker lel.
