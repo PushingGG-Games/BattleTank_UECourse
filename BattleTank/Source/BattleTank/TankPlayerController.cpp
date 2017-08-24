@@ -2,7 +2,9 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
+#include "Public/Tank.h"
 #include "Runtime/Engine/Classes/Camera/CameraComponent.h"
+
 
 void ATankPlayerController::BeginPlay()
 {
