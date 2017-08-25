@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BattleTank/Public/Tank.h"
+#include "Public/Tank.h"
 #include "BattleTank.h"
-#include "Engine/World.h"
+#include "Public/TankAimingComponent.h"
 #include "Public/TankBarrel.h"
 #include "Public/ShellProjectile.h"
-#include "BattleTank/Public/TankAimingComponent.h"
+#include "Engine/World.h"
 
 
 
@@ -49,15 +49,19 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::Fire()
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("Fired!"))
-	if (!Barrel) { return; }
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-	//Spawn a projectile at the socket location on the barrel
-	GetWorld()->SpawnActor<AShellProjectile>
-			(
-			ShellProjectileBlueprint, 
-			Barrel->GetSocketLocation(FName("Projectile")), 
-			Barrel->GetSocketRotation(FName("Projectile"))
-			);
+		if (Barrel && isReloaded)
+		{
 
+			//Spawn a projectile at the socket location on the barrel
+			auto Shell = GetWorld()->SpawnActor<AShellProjectile>
+				(
+					ShellProjectileBlueprint,
+					Barrel->GetSocketLocation(FName("Projectile")),
+					Barrel->GetSocketRotation(FName("Projectile"))
+					);
+			Shell->LaunchShell(LaunchSpeed);
+			LastFireTime = FPlatformTime::Seconds();
+		}
 }
