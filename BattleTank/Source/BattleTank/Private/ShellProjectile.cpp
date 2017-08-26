@@ -32,7 +32,6 @@ void AShellProjectile::Tick(float DeltaTime)
 
 void AShellProjectile::LaunchShell(float LaunchSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Launching Shell at %f!"), LaunchSpeed);
 	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * LaunchSpeed);
 	ProjectileMovementComponent->Activate();
 }

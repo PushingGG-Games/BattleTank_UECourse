@@ -4,6 +4,7 @@
 #include "Public/Tank.h"
 #include "BattleTank.h"
 #include "Public/TankAimingComponent.h"
+#include "Public/TankMovementComponent.h"
 #include "Public/TankBarrel.h"
 #include "Public/ShellProjectile.h"
 #include "Engine/World.h"
