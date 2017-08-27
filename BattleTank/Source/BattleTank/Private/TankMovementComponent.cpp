@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Vici Videogames
 
 
 #include "Public/TankMovementComponent.h"
@@ -12,14 +12,22 @@ void UTankMovementComponent::Initialize(UTankTrack *LeftTrackToSet, UTankTrack *
 	RightTrack = RightTrackToSet;
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
+	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention);
+	auto  ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+	IntendTurnRight(RightThrow.Z);
+}
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	if (!LeftTrack || !RightTrack) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-	//TODO stop ability to combine speeds of triggers and left stick
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
@@ -27,16 +35,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	if (!LeftTrack || !RightTrack) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
-	//TODO stop ability to combine speeds of triggers and left stick
 }
 
-void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
-{
-	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
-	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 
-	auto  ForwardThrow = FVector::DotProduct(AIForwardIntention, TankForward);
-	IntendMoveForward(ForwardThrow);
-
-	//UE_LOG(LogTemp, Warning, TEXT("%s moving to %s"), *Name, *MoveVelocity.GetSafeNormal().ToString());
-}
