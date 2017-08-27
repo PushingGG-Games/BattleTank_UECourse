@@ -23,5 +23,5 @@ private:
 	ATank *ControlledTank = nullptr;
 
 	//How close can the AI tank get
-	float AcceptanceRadius = 3000.f;
+	float AcceptanceRadius = 5000.f;
 };
