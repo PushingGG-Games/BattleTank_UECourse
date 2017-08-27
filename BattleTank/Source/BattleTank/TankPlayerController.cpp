@@ -1,14 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Vici Videogames
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
 #include "Public/Tank.h"
+#include "Public/TankAimingComponent.h"
 #include "Runtime/Engine/Classes/Camera/CameraComponent.h"
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	
+	FoundAimingComponent(AimingComponent);
+
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -24,7 +30,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation)) // has "side-effect", is going to line trace

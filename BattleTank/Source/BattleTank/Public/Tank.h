@@ -11,7 +11,6 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
-class UTankMovementComponent;
 class AShellProjectile;
 
 
@@ -22,15 +21,13 @@ class BATTLETANK_API ATank : public APawn
 
 public:
 	void AimAt(FVector HitLocation);
-
+	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent *TankAimingComponent = nullptr;
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent *TankMovementComponent = nullptr;
 
 
 private:	
@@ -41,6 +38,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AShellProjectile> ShellProjectileBlueprint;
 
+
+	//TODO Remove once firing method is being refactored
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 7000.f;
 

@@ -4,7 +4,6 @@
 #include "Public/Tank.h"
 #include "BattleTank.h"
 #include "Public/TankAimingComponent.h"
-#include "Public/TankMovementComponent.h"
 #include "Public/TankBarrel.h"
 #include "Public/ShellProjectile.h"
 #include "Engine/World.h"
@@ -19,19 +18,24 @@ ATank::ATank()
 	//No need to protect pointers as added at construction
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+}
 // Called to bind functionality to input
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
 void ATank::Fire()
 {
-
+	if (!ensure(Barrel)) { return; }
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 
-		if (Barrel && isReloaded)
+		if (isReloaded)
 		{
 
 			//Spawn a projectile at the socket location on the barrel
