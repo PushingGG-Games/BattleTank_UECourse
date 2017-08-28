@@ -40,13 +40,15 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:	
 	UTankAimingComponent();
 	UTankBarrel *Barrel = nullptr;
 	UTankTurret *Turret = nullptr;
 	
+	FVector AimDirection;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 7000.f;
 	double LastFireTime = 0;
@@ -54,7 +56,8 @@ private:
 	float ReloadTimeInSeconds = 3;
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AShellProjectile> ShellProjectileBlueprint;
-	
-	void MoveBarrelTowards(FVector AimDirection);
-
+	void MoveBarrelTowards(FVector AimingDirection);
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+	bool IsBarrelMoving();
 };
