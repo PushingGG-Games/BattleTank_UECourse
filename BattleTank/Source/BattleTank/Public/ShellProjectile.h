@@ -7,6 +7,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "ShellProjectile.generated.h"
 
+class URadialForceComponent;
+
 UCLASS()
 class BATTLETANK_API AShellProjectile : public AActor
 {
@@ -23,12 +25,16 @@ protected:
 
 
 private:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	UProjectileMovementComponent *ProjectileMovementComponent = nullptr;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UStaticMeshComponent *CollisionMesh = nullptr;
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UParticleSystemComponent *LaunchBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent *ImpactBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent *ExplosionForce = nullptr;
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 	
 };
