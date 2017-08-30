@@ -3,6 +3,10 @@
 #include "Public/ShellProjectile.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
 #include "Runtime/Engine/Classes/Components/PrimitiveComponent.h"
+#include "Engine/World.h"
+#include "Runtime/Engine/Classes/GameFramework/DamageType.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Public/TimerManager.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/RadialForceComponent.h"
 #include "Runtime/CoreUObject/Public/UObject/UObjectGlobals.h"
 
@@ -50,6 +54,27 @@ void AShellProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAct
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
-	CollisionMesh->DestroyComponent();
 	ExplosionForce->FireImpulse();
+	
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForce->Radius, // for consistency
+		UDamageType::StaticClass(),
+		TArray<AActor*>() //Damage all Actors
+	);
+
+
+
+
+	FTimerHandle Timer;
+	FTimerDelegate Delegate;
+	Delegate.BindLambda([this] { Destroy(); });
+	//Uses different SetTimer overload
+	GetWorld()->GetTimerManager().SetTimer(Timer, Delegate, DestroyDelay, false);
 }
+

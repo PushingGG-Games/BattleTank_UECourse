@@ -11,9 +11,11 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	auto TankRef = Cast<ATank>(GetPawn());
 	if (!ensure(AimingComponent)) { return; }
 	
-	FoundAimingComponent(AimingComponent);
+	Constructed(AimingComponent, TankRef);
+
 
 }
 
